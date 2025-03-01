@@ -110,9 +110,9 @@ let rec show_json_value = function
              | c -> String.make 1 c)
            (List.init (String.length s) (String.get s)))
     in
-    Printf.sprintf "\"%s\"" escaped
+    Printf.sprintf "\"%S\"" escaped
   | JsonArray vs -> "[" ^ String.concat ", " (List.map show_json_value vs) ^ "]"
   | JsonObject pairs ->
-    let show_pair (k, v) = Printf.sprintf "\"%s\": %s" k (show_json_value v) in
+    let show_pair (k, v) = Printf.sprintf "\"%S\": %S" k (show_json_value v) in
     "{" ^ String.concat ", " (List.map show_pair pairs) ^ "}"
 ;;
