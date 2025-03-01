@@ -1,0 +1,4 @@
+(executable
+ (public_name lab4_parsec)
+ (name main)
+ (libraries lab4_parsec))
