@@ -1,6 +1,7 @@
 open OUnit2
 open Lab4_parsec.Basic
 open Lab4_parsec.Parser
+open Lab4_parsec.Json
 
 let test_char_parser _ =
   let p = char 'a' in
@@ -41,6 +42,33 @@ let test_parentheses _ =
   | _ -> assert false
 ;;
 
+
+let test_json_null _ = assert_equal (Ok JsonNull) (parse_json "null")
+
+let test_json_bool _ =
+  assert_equal (Ok (JsonBool true)) (parse_json "true");
+  assert_equal (Ok (JsonBool false)) (parse_json "false")
+;;
+
+let test_json_number _ =
+  assert_equal (Ok (JsonNumber 42.0)) (parse_json "42");
+  assert_equal (Ok (JsonNumber (-3.14))) (parse_json "-3.14");
+  assert_equal (Ok (JsonNumber 2.5e3)) (parse_json "2.5e3")
+;;
+
+let test_json_string _ =
+  assert_equal (Ok (JsonString "hello")) (parse_json "\"hello\"");
+  assert_equal (Ok (JsonString "line\nbreak")) (parse_json "\"line\\nbreak\"")
+;;
+
+let test_json_array _ =
+  assert_equal (Ok (JsonArray [ JsonNumber 1.0; JsonNumber 2.0; JsonNumber 3.0 ])) (parse_json "[1, 2, 3]")
+;;
+
+let test_json_object _ =
+  assert_equal (Ok (JsonObject [ "key", JsonString "value" ])) (parse_json "{\"key\": \"value\"}")
+;;
+
 let suite =
   "Parser Tests"
   >::: [ "Char Parser" >:: test_char_parser
@@ -49,6 +77,12 @@ let suite =
        ; "Simple Expression" >:: test_simple_expr
        ; "Operator Priority" >:: test_priority
        ; "Parentheses" >:: test_parentheses
+       ; "test_json_null" >:: test_json_null
+       ; "test_json_bool" >:: test_json_bool
+       ; "test_json_number" >:: test_json_number
+       ; "test_json_string" >:: test_json_string
+       ; "test_json_array" >:: test_json_array
+       ; "test_json_object" >:: test_json_object
        ]
 ;;
 
