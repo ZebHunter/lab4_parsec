@@ -42,7 +42,6 @@ let test_parentheses _ =
   | _ -> assert false
 ;;
 
-
 let test_json_null _ = assert_equal (Ok JsonNull) (parse_json "null")
 
 let test_json_bool _ =
